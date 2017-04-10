@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>paginator</title>
+	<style>
+		html,body{
+			margin:0;
+			height:100%;
+		}
+		#logo{
+			width:100%;
+			height:20%;
+			border:1px solid red;
+		}
+		#container{
+			width:80%;
+			margin:0 auto;
+			border:1px solid red;
+			text-align: center;
+		}
+		.showData li{
+			list-style: none;
+			height:50px;
+		}
+		.loadDIV{
+			border:1px solid red;
+
+		}
+		.loadDIV img{
+			width:150px;
+		}
+	</style>
+</head>
+<body>
+	<div id="logo">
+		<h3>LOGO</h3>
+	</div>
+	<div id="container">
+		<h3>CONTAINER</h3>
+		<ul class="showData">
+			
+		</ul>
+	</div>
+	
+	<script src="../fw/jquery.js"></script>
+	<script src="../fw/es6-promise.min.js"></script>
+	<script src="paginator.js"></script>
+	<script>
+		var props = {
+			param: {
+				'pageno' : '1', //页码
+				'pagesize' : '10' //每页请求数据的数量
+			},
+			parentElem: $('.showData'),
+			getData:getResponse, //请求的数据
+			render: rendering //将内容渲染到页面上
+		};
+
+		//初始化
+		var paginator = new Paginator(props);
+		paginator.init();
+		
+		function getResponse(params){
+			var promise = new Promise(function(resolve,reject){
+				//这里是请求数据操作 - (目前用数组代替)
+				var response = [
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！',
+					'这是返回的数据数据数据！'
+				];
+				resolve(response);
+			});
+			return promise;
+		}
+
+		function rendering(data){
+			var lis = '';
+			$.each(data,function(index,info){
+				var li = '<li>'+info+'</li>';
+				lis += li;
+			});
+			$('.showData').append(lis);
+		}
+	</script>
+</body>
+</html>
