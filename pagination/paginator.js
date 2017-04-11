@@ -17,10 +17,8 @@ proto.init = function(){
 		if(data.length > 0){
 			this.render(data);
 			$(window).scroll(this.handleScroll.bind(this));
-		}else if(data.length == 0 && this.params.pageno == '1'){
+		}else if(data.length == 0){
 			this.parentElem.append('<div class="loadDIV">没有相关数据</div>');
-		}else if(data.length == 0 && this.params.pageno != '1'){
-			this.parentElem.append('<div class="loadDIV">数据加载完成</div>');
 		}
 	}.bind(this));
 }
@@ -33,9 +31,7 @@ proto.handleScroll = function(){
 
 	if(scrollTop + windowHeight >= (scrollHeight - 100)){
 		//滚动条滚动到距底部100时，添加load.gif
-		console.log('====loading===='+this.loadElem);
 		if(!this.loadElem){
-			console.log('==添加loading==');
 			var loadImg = $('<img src="../imgs/load.gif"/>');
 			this.loadElem = $('<div class="loadDIV"></div>');
 			this.loadElem.append(loadImg);
@@ -45,17 +41,16 @@ proto.handleScroll = function(){
 	}
 	//滚动条滚动到底部
 　　if(scrollTop + windowHeight == scrollHeight){
+		console.log('==========到底部了========');
 		this.loadElem.remove();
-		this.laodElem = null;
+		this.loadElem = null;
 
 		this.params.pageno++;
 		this.promise = this.getData(this.params);
 		this.promise.then(function(data){
-			console.log('==加载下一页数据=='+data);
 			if(data.length > 0){
 				this.render(data);
 			}else if(data.length == 0){
-				console.log('==数据加载完成==');
 				this.loadElem.remove();
 				this.loadElem = null;
 				this.parentElem.append('<div class="loadDIV">数据加载完成</div>');
